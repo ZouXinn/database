@@ -12,25 +12,27 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import Model.Player;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import java.awt.GridLayout;
-
+import BLL.*;
 public class SetInfoForm extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private String username;
 	private JTable table;
-	private JTextField bPlayerNumText;
 	private JButton returnBtn;
 	private JButton setPlayerInfoBtn;
 	private JButton sureBtn;
-	SetPlayerInfoForm form;
-	TeamClient parent;
-	private JTextField gPlayerNumText;
+	SetPlayerInfoForm son;
+	private TeamClient parent;
 	/**
 	 * Launch the application.
 	 */
@@ -51,6 +53,7 @@ public class SetInfoForm extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public SetInfoForm(String username,TeamClient parent) {
+		this.son = null;
 		this.parent = parent;
 		this.username = username;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,35 +75,9 @@ public class SetInfoForm extends JFrame implements ActionListener{
 		panel_2.add(sureBtn, BorderLayout.WEST);
 		sureBtn.addActionListener(this);
 		
-		setPlayerInfoBtn = new JButton("\u5F55\u5165");
+		setPlayerInfoBtn = new JButton("\u8FD0\u52A8\u5458\u4FE1\u606F\u5F55\u5165");
 		panel_2.add(setPlayerInfoBtn, BorderLayout.EAST);
 		setPlayerInfoBtn.addActionListener(this);
-		
-		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, BorderLayout.CENTER);
-		panel_3.setLayout(new GridLayout(0, 2, 0, 0));
-		
-		JPanel panel_4 = new JPanel();
-		panel_3.add(panel_4);
-		panel_4.setLayout(new GridLayout(1, 2, 0, 0));
-		
-		JLabel label = new JLabel("\u7537\u751F\u4E2A\u6570:");
-		panel_4.add(label);
-		
-		bPlayerNumText = new JTextField();
-		panel_4.add(bPlayerNumText);
-		bPlayerNumText.setColumns(10);
-		
-		JPanel panel_5 = new JPanel();
-		panel_3.add(panel_5);
-		panel_5.setLayout(new GridLayout(1, 2, 0, 0));
-		
-		JLabel label_1 = new JLabel("\u5973\u751F\u4E2A\u6570:");
-		panel_5.add(label_1);
-		
-		gPlayerNumText = new JTextField();
-		panel_5.add(gPlayerNumText);
-		gPlayerNumText.setColumns(10);
 		
 		
 		
@@ -157,12 +134,27 @@ public class SetInfoForm extends JFrame implements ActionListener{
 			}
 			this.dispose();
 		}else if(e.getSource() == sureBtn) {
-			
+			if(son == null) {
+				JOptionPane.showMessageDialog(null, "未录入运动员信息","错误！", JOptionPane.ERROR_MESSAGE);
+			}else {
+				TeamInfo info = new TeamInfo(null,null,null,null,son.boyVect,son.girlVect);
+				info.send();
+			}			
 		}else if(e.getSource() == setPlayerInfoBtn) {
-			SetPlayerInfoForm spif = new SetPlayerInfoForm(this,Integer.parseInt(bPlayerNumText.getText()),Integer.parseInt(gPlayerNumText.getText()));
+			son = new SetPlayerInfoForm(this);
 			this.setVisible(false);
-			spif.setVisible(true);
+			son.setVisible(true);
 		}
 	}
-
+	private void updateToDB() {
+		//Object[] boyPros1 = boyVect.toArray();
+		Object[] boyPros = son.boyVect.toArray();
+		Object[] girlPros = son.girlVect.toArray();
+		for(int i = 0 ; i < boyPros.length ;i++) {
+			System.out.println(((Player)boyPros[i]).getName()+" "+((Player)boyPros[i]).getAge());
+		}
+		for(int i = 0 ; i < girlPros.length ;i++) {
+			System.out.println(((Player)girlPros[i]).getName()+" "+((Player)girlPros[i]).getAge());
+		}
+	}
 }

@@ -19,31 +19,31 @@ public class Player implements Serializable{
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
+//	public void setName(String name) {
+//		this.name = name;
+//	}
 	public boolean getSex() {
 		return sex;
 	}
-	public void setSex(boolean sex) {
-		this.sex = sex;
-	}
+//	public void setSex(boolean sex) {
+//		this.sex = sex;
+//	}
 	public int getAge() {
 		return age;
 	}
-	public void setAge(int age) {
-		this.age = age;
-	}
+//	public void setAge(int age) {
+//		this.age = age;
+//	}
 	public String getIDNumber() {
 		return IDNumber;
 	}
-	public void setIDNumber(String IDNumber) {
-		this.IDNumber = IDNumber;
-	}
+//	public void setIDNumber(String IDNumber) {
+//		this.IDNumber = IDNumber;
+//	}
 	public boolean[] getPros() {
 		return pros;
 	}
-	public void setPros(boolean[] pros) {
-		this.pros = pros;
-	}
+//	public void setPros(boolean[] pros) {
+//		this.pros = pros;
+//	}
 }

@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import DAL.DBConnect;
+
 
 public class TestDB {
 	private static Connection con = DBConnect.getConnection();

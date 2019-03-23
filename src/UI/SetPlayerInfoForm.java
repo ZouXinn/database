@@ -33,7 +33,6 @@ public class SetPlayerInfoForm extends JFrame implements ActionListener,ItemList
 
 	private JPanel contentPane;
 	private SetInfoForm parent;
-	private int boyNum,girlNum;
 	private JPanel infoMainPanel;
 	private JPanel bPanels[],gPanels[];
 	private JTextField IDText;
@@ -42,7 +41,8 @@ public class SetPlayerInfoForm extends JFrame implements ActionListener,ItemList
 	private JComboBox sexBox;
 	private CardLayout card;
 	private JButton returnBtn,nextBtn,sureBtn;
-	private Vector<Player> boyVect,girlVect;
+	Vector<Player> boyVect;
+	Vector<Player> girlVect;
 	private JRadioButton[] boyRadios;//单杠 双杠 吊环  跳马 自由体操 鞍马 蹦床    按顺序
 	private JRadioButton[] girlRadios;//跳马 高低杠  自由体操 平衡木 蹦床           按顺序
 	private JLabel ageBarLabel;
@@ -55,7 +55,7 @@ public class SetPlayerInfoForm extends JFrame implements ActionListener,ItemList
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SetPlayerInfoForm frame = new SetPlayerInfoForm(null,3,3);
+					SetPlayerInfoForm frame = new SetPlayerInfoForm(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -67,10 +67,8 @@ public class SetPlayerInfoForm extends JFrame implements ActionListener,ItemList
 	/**
 	 * Create the frame.
 	 */
-	public SetPlayerInfoForm(SetInfoForm parent,int boyNum,int girlNum) {
+	public SetPlayerInfoForm(SetInfoForm parent) {
 		this.parent = parent;
-		this.boyNum = boyNum;
-		this.girlNum = girlNum;
 		boyVect = new Vector<Player>();
 		girlVect = new Vector<Player>();
 		boyRadios = new JRadioButton[7];
@@ -93,7 +91,7 @@ public class SetPlayerInfoForm extends JFrame implements ActionListener,ItemList
 		panel.add(panel_1, BorderLayout.NORTH);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
-		returnBtn = new JButton("\u8FD4\u56DE");
+		returnBtn = new JButton("\u53D6\u6D88");
 		returnBtn.addActionListener(this);
 		panel_1.add(returnBtn, BorderLayout.WEST);
 		
@@ -105,7 +103,7 @@ public class SetPlayerInfoForm extends JFrame implements ActionListener,ItemList
 		label.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_2.add(label, BorderLayout.WEST);
 		
-		sureBtn = new JButton("\u63D0\u4EA4");
+		sureBtn = new JButton("\u786E\u5B9A");
 		sureBtn.addActionListener(this);
 		panel_2.add(sureBtn, BorderLayout.EAST);
 		
@@ -256,6 +254,7 @@ public class SetPlayerInfoForm extends JFrame implements ActionListener,ItemList
 			if(parent != null) {
 				parent.setVisible(true);
 			}
+			parent.son = null;
 			this.dispose();
 		}else if(e.getSource() == nextBtn) {
 			boolean getIn = false;
@@ -310,17 +309,15 @@ public class SetPlayerInfoForm extends JFrame implements ActionListener,ItemList
 				break;
 			}
 			if(!nameText.getText().equals("")&&!IDText.getText().equals("")&&getIn) {
-				int res=JOptionPane.showConfirmDialog(null, "确定？", "是否确定提交？", JOptionPane.YES_NO_OPTION);
-			    if(res==JOptionPane.YES_OPTION){ 
+				int res=JOptionPane.showConfirmDialog(null, "确定？", "是否确定？", JOptionPane.YES_NO_OPTION);
+			    if(res==JOptionPane.YES_OPTION){ //点击“是”后执行这个代码块
 			    	saveNew();
 			    	if(parent!=null) {
-			    		parent.setVisible(true);
-			    		updateToDB();//上传到数据库
-			    		this.dispose();
+			    		parent.setVisible(true);			    		
 			    	}
-			    	System.out.println("选择是后执行的代码");    //点击“是”后执行这个代码块
-				}else{
-					System.out.println("选择否后执行的代码");    //点击“否”后执行这个代码块
+			    	this.setVisible(false);
+			    	    
+				}else{ //点击“否”后执行这个代码块
 					return;
 				} 
 				
@@ -373,8 +370,4 @@ public class SetPlayerInfoForm extends JFrame implements ActionListener,ItemList
 			System.out.println("保存出错");
 		}
 	}
-	private void updateToDB() {
-		Player[] boyPros = (Player[])boyVect.toArray();
-	}
-
 }
